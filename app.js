@@ -75,8 +75,9 @@ function init() {
   particles = [];
 
   for (let i = 0; i < 50; i++) {
+    const radius = Math.random() * 2 + 1;
     particles.push(
-      new Particle(canvas.width / 2, canvas.height / 2, 5, "blue")
+      new Particle(canvas.width / 2, canvas.height / 2, radius, "blue")
     );
   }
   console.log(particles);
