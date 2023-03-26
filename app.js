@@ -13,7 +13,7 @@ function distance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
 }
 
-module.exports = { randomIntFromRange, randomColor, distance };
+// module.exports = { randomIntFromRange, randomColor, distance };
 
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
@@ -42,35 +42,39 @@ addEventListener("resize", () => {
 });
 
 // Objects
-class Particle {
-  constructor(x, y, radius, color) {
-    this.x = x;
-    this.y = y;
-    this.radius = radius;
-    this.color = color;
-  }
+function Particle(x, y, radius, color) {
+  this.x = x;
+  this.y = y;
+  this.radius = radius;
+  this.color = color;
+  this.radians = 0;
+  this.velocity = 0.05;
 
-  draw() {
+  this.update = () => {
+    this.radians += this.velocity;
+    this.x = x + Math.cos(this.radians) * 100;
+    this.draw();
+  };
+  this.draw = () => {
     c.beginPath();
     c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
     c.fillStyle = this.color;
     c.fill();
     c.closePath();
-  }
-
-  update() {
-    this.draw();
-  }
+  };
 }
 
 // Implementation
-let objects;
+let particles;
 function init() {
-  objects = [];
+  particles = [];
 
-  for (let i = 0; i < 400; i++) {
-    // objects.push()
+  for (let i = 0; i < 1; i++) {
+    particles.push(
+      new Particle(canvas.width / 2, canvas.height / 2, 5, "blue")
+    );
   }
+  console.log(particles);
 }
 
 // Animation Loop
@@ -78,10 +82,9 @@ function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
 
-  c.fillText("HTML CANVAS BOILERPLATE", mouse.x, mouse.y);
-  // objects.forEach(object => {
-  //  object.update()
-  // })
+  particles.forEach((particle) => {
+    particle.update();
+  });
 }
 
 init();
