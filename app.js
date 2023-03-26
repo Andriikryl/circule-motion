@@ -47,12 +47,17 @@ function Particle(x, y, radius, color) {
   this.y = y;
   this.radius = radius;
   this.color = color;
-  this.radians = 0;
+  this.radians = Math.random() * Math.PI * 2;
   this.velocity = 0.05;
+  this.distanceFromCenter = {
+    x: randomIntFromRange(50, 120),
+    y: randomIntFromRange(50, 120),
+  };
 
   this.update = () => {
     this.radians += this.velocity;
-    this.x = x + Math.cos(this.radians) * 100;
+    this.x = x + Math.cos(this.radians) * this.distanceFromCenter.x;
+    this.y = y + Math.sin(this.radians) * this.distanceFromCenter.y;
     this.draw();
   };
   this.draw = () => {
@@ -69,7 +74,7 @@ let particles;
 function init() {
   particles = [];
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 50; i++) {
     particles.push(
       new Particle(canvas.width / 2, canvas.height / 2, 5, "blue")
     );
